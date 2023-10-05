@@ -8,64 +8,101 @@ object DMDB: TDMDB
     Top = 160
   end
   object cdsOcorrencias: TClientDataSet
+    Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'dspOcorrencias'
+    OnCalcFields = cdsOcorrenciasCalcFields
     Left = 32
     Top = 112
-    object cdsOcorrenciascodigouma: TFloatField
-      FieldName = 'codigouma'
+    object cdsOcorrenciasCODIGOUMA: TFloatField
+      FieldName = 'CODIGOUMA'
     end
-    object cdsOcorrenciasnumos: TFloatField
-      FieldName = 'numos'
+    object cdsOcorrenciasNUMOS: TFloatField
+      FieldName = 'NUMOS'
     end
-    object cdsOcorrenciasusuarioinclusao: TFloatField
-      FieldName = 'usuarioinclusao'
+    object cdsOcorrenciasDATAINCLUSAO: TDateTimeField
+      FieldName = 'DATAINCLUSAO'
     end
-    object cdsOcorrenciasdescricaoproblema: TStringField
-      FieldName = 'descricaoproblema'
+    object cdsOcorrenciasUSUARIOINCLUSAO: TIntegerField
+      FieldName = 'USUARIOINCLUSAO'
+    end
+    object cdsOcorrenciasDESCRICAOPROBLEMA: TStringField
+      FieldName = 'DESCRICAOPROBLEMA'
       Size = 100
     end
-    object cdsOcorrenciasnome: TStringField
-      FieldName = 'nome'
+    object cdsOcorrenciasNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
       Size = 40
     end
-    object cdsOcorrenciasdeposito: TFloatField
-      FieldName = 'deposito'
+    object cdsOcorrenciasTIPOOS: TIntegerField
+      FieldName = 'TIPOOS'
     end
-    object cdsOcorrenciasrua: TFloatField
-      FieldName = 'rua'
+    object cdsOcorrenciasNUMONDA: TIntegerField
+      FieldName = 'NUMONDA'
     end
-    object cdsOcorrenciaspredio: TFloatField
-      FieldName = 'predio'
+    object cdsOcorrenciasNUMORDEM: TIntegerField
+      FieldName = 'NUMORDEM'
     end
-    object cdsOcorrenciasnivel: TFloatField
-      FieldName = 'nivel'
+    object cdsOcorrenciasDATAONDA: TDateTimeField
+      FieldName = 'DATAONDA'
     end
-    object cdsOcorrenciasapto: TFloatField
-      FieldName = 'apto'
+    object cdsOcorrenciasCODIGOENDERECO: TFloatField
+      FieldName = 'CODIGOENDERECO'
     end
-    object cdsOcorrenciascodigoendereco: TFloatField
-      FieldName = 'codigoendereco'
+    object cdsOcorrenciasDEPOSITO: TIntegerField
+      FieldName = 'DEPOSITO'
     end
-    object cdsOcorrenciasdatainclusao: TDateTimeField
-      FieldName = 'datainclusao'
+    object cdsOcorrenciasRUA: TIntegerField
+      FieldName = 'RUA'
     end
-    object cdsOcorrenciasnumonda: TFloatField
-      FieldName = 'numonda'
+    object cdsOcorrenciasPREDIO: TIntegerField
+      FieldName = 'PREDIO'
     end
-    object cdsOcorrenciasnumordem: TFloatField
-      FieldName = 'numordem'
+    object cdsOcorrenciasNIVEL: TIntegerField
+      FieldName = 'NIVEL'
     end
-    object cdsOcorrenciasdataonda: TDateTimeField
-      FieldName = 'dataonda'
+    object cdsOcorrenciasAPTO: TIntegerField
+      FieldName = 'APTO'
     end
-    object cdsOcorrenciastipoos: TFloatField
-      FieldName = 'tipoos'
+    object cdsOcorrenciasDESCTIPOOS: TStringField
+      FieldName = 'DESCTIPOOS'
+      Size = 50
     end
-    object cdsOcorrenciasdesctipoos: TStringField
-      FieldName = 'desctipoos'
-      Size = 200
+    object cdsOcorrenciasSELECIONADO: TStringField
+      FieldName = 'SELECIONADO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsOcorrenciasCODMOTIVO: TIntegerField
+      FieldName = 'CODMOTIVO'
+    end
+    object cdsOcorrenciasCODPROD: TIntegerField
+      FieldName = 'CODPROD'
+    end
+    object cdsOcorrenciasPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Size = 40
+    end
+    object cdsOcorrenciasREGISTROS_MESMA_OS: TFloatField
+      FieldName = 'REGISTROS_MESMA_OS'
+    end
+    object cdsOcorrenciasCALC_SELECIONADO: TIntegerField
+      FieldKind = fkInternalCalc
+      FieldName = 'CALC_SELECIONADO'
+    end
+    object cdsOcorrenciasCALC_REINCIDENTE: TStringField
+      FieldKind = fkInternalCalc
+      FieldName = 'CALC_REINCIDENTE'
+      Size = 1
+    end
+    object cdsOcorrenciasAGG_SELECIONADO: TAggregateField
+      FieldName = 'AGG_SELECIONADO'
+      Required = True
+      Active = True
+      DisplayName = ''
+      Expression = 'SUM(CALC_SELECIONADO)'
     end
   end
   object dspOcorrencias: TDataSetProvider
@@ -74,111 +111,92 @@ object DMDB: TDMDB
     Top = 64
   end
   object qryOcorrencias: TOraQuery
+    Session = OraSession1
     SQL.Strings = (
-      'with ocorrencias as ('
-      'select '
-      'booscompendencia.codigouma'
-      ',booscompendencia.numos'
-      ',booscompendencia.datainclusao'
-      ',booscompendencia.usuarioinclusao'
-      ',booscompendencia.descricaoproblema'
-      ',pcempr.nome'
-      ',mep.tipoos'
-      ',bodefineondai.numonda'
-      ',bodefineondai.numordem'
-      ',bodefineondai.data as dataonda'
-      ',(case when mep.tipoos in (17,23,98)'
-      '   then mep.codendereco'
-      '   else (case when mep.tipoos=61'
-      '         then mep.codenderecoorig'
-      '         else (case when mep.dtinicioos is null'
-      '               then mep.codenderecoorig'
-      '               else mep.codendereco '
-      '               end)'
-      '         end)'
-      '   end) as codigoendereco'
-      '   '
-      'from booscompendencia'
+      'WITH OCORRENCIAS'
+      '     AS (SELECT BOOSCOMPENDENCIA.CODIGOUMA'
+      '                , BOOSCOMPENDENCIA.NUMOS'
+      '                , BOOSCOMPENDENCIA.DATAINCLUSAO'
+      '                , BOOSCOMPENDENCIA.USUARIOINCLUSAO'
+      '                , BOOSCOMPENDENCIA.DESCRICAOPROBLEMA'
+      '                , BOOSCOMPENDENCIA.CODMOTIVO '
+      '                , PCEMPR.NOME'
+      '                , MEP.TIPOOS'
+      '                , BODEFINEONDAI.NUMONDA'
+      '                , BODEFINEONDAI.NUMORDEM'
+      '                , BODEFINEONDAI.DATA AS dataonda'
+      '                , MEP.CODPROD'
+      '                , ( CASE'
       
-        '     join pcempr on pcempr.matricula = booscompendencia.usuarioi' +
-        'nclusao'
-      '     join pcmovendpend mep on mep.numos=booscompendencia.numos'
+        '                      WHEN MEP.TIPOOS IN ( 17, 23, 98 ) THEN MEP' +
+        '.CODENDERECO'
+      '                      ELSE ( CASE'
       
-        '     left join bodefineondai on bodefineondai.numtransWMS = mep.' +
-        'numtransWMS'
-      'where booscompendencia.dataliberacao is null)'
-      ''
-      'select '
-      'ocorrencias.*'
-      ',pcendereco.deposito'
-      ',pcendereco.rua'
-      ',pcendereco.predio'
-      ',pcendereco.nivel'
-      ',pcendereco.apto'
-      ', PCTIPOOS.descricao as desctipoos'
-      'from ocorrencias'
+        '                               WHEN MEP.TIPOOS = 61 THEN MEP.COD' +
+        'ENDERECOORIG'
+      '                               ELSE ( CASE'
       
-        '     join pcendereco on pcendereco.codendereco=ocorrencias.codig' +
-        'oendereco'
-      '     LEFT JOIN PCTIPOOS on PCTIPOOS.codigo = ocorrencias.tipoos')
+        '                                        WHEN MEP.DTINICIOOS IS N' +
+        'ULL THEN MEP.CODENDERECOORIG'
+      '                                        ELSE MEP.CODENDERECO'
+      '                                      END )'
+      '                             END )'
+      '                    END )            AS codigoendereco'
+      '         FROM   BOOSCOMPENDENCIA'
+      '                JOIN PCEMPR'
+      
+        '                  ON PCEMPR.MATRICULA = BOOSCOMPENDENCIA.USUARIO' +
+        'INCLUSAO'
+      '                JOIN PCMOVENDPEND MEP'
+      '                  ON MEP.NUMOS = BOOSCOMPENDENCIA.NUMOS'
+      '                LEFT JOIN BODEFINEONDAI'
+      
+        '                       ON BODEFINEONDAI.NUMTRANSWMS = MEP.NUMTRA' +
+        'NSWMS'
+      '                       AND BODEFINEONDAI.NUMCAR = MEP.NUMCAR'
+      '         WHERE  BOOSCOMPENDENCIA.DATALIBERACAO IS NULL'
+      '         '
+      '         )'
+      'SELECT '#39'N'#39' AS SELECIONADO'
+      #9'   , OCORRENCIAS.CODIGOUMA'
+      '       , OCORRENCIAS.NUMOS'
+      '       , OCORRENCIAS.DATAINCLUSAO'
+      '       , OCORRENCIAS.USUARIOINCLUSAO'
+      '       , OCORRENCIAS.CODMOTIVO'
+      '       , OCORRENCIAS.DESCRICAOPROBLEMA'
+      '       , OCORRENCIAS.NOME'
+      '       , OCORRENCIAS.TIPOOS'
+      '       , OCORRENCIAS.NUMONDA'
+      '       , OCORRENCIAS.NUMORDEM'
+      '       , OCORRENCIAS.DATAONDA'
+      '       , OCORRENCIAS.CODIGOENDERECO'
+      '       , OCORRENCIAS.CODPROD'
+      '       , PCPRODUT.DESCRICAO AS PRODUTO'
+      '       , PCENDERECO.DEPOSITO'
+      '       , PCENDERECO.RUA'
+      '       , PCENDERECO.PREDIO'
+      '       , PCENDERECO.NIVEL'
+      '       , PCENDERECO.APTO'
+      '       , PCTIPOOS.DESCRICAO AS desctipoos'
+      '       , (SELECT COUNT(*)'
+      '       '#9'  FROM BOOSCOMPENDENCIA'
+      '       '#9'  WHERE BOOSCOMPENDENCIA.NUMOS = OCORRENCIAS.NUMOS'
+      
+        '       '#9'  AND BOOSCOMPENDENCIA.DATAINCLUSAO >= TRUNC(OCORRENCIAS' +
+        '.DATAINCLUSAO) - 30'
+      '       ) AS REGISTROS_MESMA_OS'
+      'FROM   OCORRENCIAS'
+      '       JOIN PCENDERECO'
+      '         ON PCENDERECO.CODENDERECO = OCORRENCIAS.CODIGOENDERECO'
+      '       LEFT JOIN PCPRODUT'
+      '       '#9'ON PCPRODUT.CODPROD = OCORRENCIAS.CODPROD'
+      '       LEFT JOIN PCTIPOOS'
+      '              ON PCTIPOOS.CODIGO = OCORRENCIAS.TIPOOS ')
     Left = 32
     Top = 16
-    object qryOcorrenciascodigouma: TFloatField
-      FieldName = 'codigouma'
-    end
-    object qryOcorrenciasnumos: TFloatField
-      FieldName = 'numos'
-    end
-    object qryOcorrenciasusuarioinclusao: TFloatField
-      FieldName = 'usuarioinclusao'
-    end
-    object qryOcorrenciasdescricaoproblema: TStringField
-      FieldName = 'descricaoproblema'
-      Size = 100
-    end
-    object qryOcorrenciasnome: TStringField
-      FieldName = 'nome'
-      Size = 40
-    end
-    object qryOcorrenciasdeposito: TFloatField
-      FieldName = 'deposito'
-    end
-    object qryOcorrenciasrua: TFloatField
-      FieldName = 'rua'
-    end
-    object qryOcorrenciaspredio: TFloatField
-      FieldName = 'predio'
-    end
-    object qryOcorrenciasnivel: TFloatField
-      FieldName = 'nivel'
-    end
-    object qryOcorrenciasapto: TFloatField
-      FieldName = 'apto'
-    end
-    object qryOcorrenciascodigoendereco: TFloatField
-      FieldName = 'codigoendereco'
-    end
-    object qryOcorrenciasdatainclusao: TDateTimeField
-      FieldName = 'datainclusao'
-    end
-    object qryOcorrenciasnumordem: TFloatField
-      FieldName = 'numordem'
-    end
-    object qryOcorrenciasnumonda: TFloatField
-      FieldName = 'numonda'
-    end
-    object qryOcorrenciasdataonda: TDateTimeField
-      FieldName = 'dataonda'
-    end
-    object qryOcorrenciastipoos: TFloatField
-      FieldName = 'tipoos'
-    end
-    object qryOcorrenciasdesctipoos: TStringField
-      FieldName = 'desctipoos'
-      Size = 200
-    end
   end
   object qryLiberaOcorrencia: TOraQuery
+    Session = OraSession1
     SQL.Strings = (
       'update booscompendencia'
       'set dataliberacao=sysdate'
@@ -241,6 +259,7 @@ object DMDB: TDMDB
     end
   end
   object qryLiberaOS: TOraQuery
+    Session = OraSession1
     SQL.Strings = (
       'update pcmovendpend'
       'set'
@@ -262,5 +281,14 @@ object DMDB: TDMDB
         Name = 'NUMOS'
         Value = nil
       end>
+  end
+  object OraSession1: TOraSession
+    Options.Direct = True
+    Username = 'ESPERANCA'
+    Server = '10.0.1.188:1521/WINT'
+    LoginPrompt = False
+    Left = 296
+    Top = 160
+    EncryptedPassword = 'ABFFBAFFACFFABFFBAFFBAFFACFFAFFFBAFFADFFBEFFB1FFBCFFBEFF'
   end
 end

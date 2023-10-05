@@ -3,7 +3,7 @@ unit UFRMdmdb;
 interface
 
 uses
-  SysUtils, Classes, DBAccess, Ora, OraSmart, MemDS, OraError, Provider, DB, DBClient, MidasLib;
+  SysUtils, Classes, DBAccess, Ora, OraSmart, MemDS, OraError, Provider, DB, DBClient, MidasLib, OraCall;
 
 type
   TDMDB = class(TDataModule)
@@ -11,28 +11,6 @@ type
     cdsOcorrencias: TClientDataSet;
     dspOcorrencias: TDataSetProvider;
     qryOcorrencias: TOraQuery;
-    qryOcorrenciascodigouma: TFloatField;
-    qryOcorrenciasnumos: TFloatField;
-    qryOcorrenciasusuarioinclusao: TFloatField;
-    qryOcorrenciasdescricaoproblema: TStringField;
-    qryOcorrenciasnome: TStringField;
-    cdsOcorrenciascodigouma: TFloatField;
-    cdsOcorrenciasnumos: TFloatField;
-    cdsOcorrenciasusuarioinclusao: TFloatField;
-    cdsOcorrenciasdescricaoproblema: TStringField;
-    cdsOcorrenciasnome: TStringField;
-    qryOcorrenciasdeposito: TFloatField;
-    qryOcorrenciasrua: TFloatField;
-    qryOcorrenciaspredio: TFloatField;
-    qryOcorrenciasnivel: TFloatField;
-    qryOcorrenciasapto: TFloatField;
-    cdsOcorrenciasdeposito: TFloatField;
-    cdsOcorrenciasrua: TFloatField;
-    cdsOcorrenciaspredio: TFloatField;
-    cdsOcorrenciasnivel: TFloatField;
-    cdsOcorrenciasapto: TFloatField;
-    qryOcorrenciasdatainclusao: TDateTimeField;
-    cdsOcorrenciasdatainclusao: TDateTimeField;
     qryLiberaOcorrencia: TOraQuery;
     FloatField1: TFloatField;
     FloatField2: TFloatField;
@@ -45,19 +23,34 @@ type
     FloatField7: TFloatField;
     FloatField8: TFloatField;
     DateTimeField1: TDateTimeField;
-    qryOcorrenciascodigoendereco: TFloatField;
-    cdsOcorrenciascodigoendereco: TFloatField;
-    cdsOcorrenciasnumonda: TFloatField;
-    cdsOcorrenciasnumordem: TFloatField;
-    qryOcorrenciasnumordem: TFloatField;
-    qryOcorrenciasnumonda: TFloatField;
-    qryOcorrenciasdataonda: TDateTimeField;
-    cdsOcorrenciasdataonda: TDateTimeField;
-    qryOcorrenciastipoos: TFloatField;
-    qryOcorrenciasdesctipoos: TStringField;
-    cdsOcorrenciastipoos: TFloatField;
-    cdsOcorrenciasdesctipoos: TStringField;
     qryLiberaOS: TOraQuery;
+    OraSession1: TOraSession;
+    cdsOcorrenciasCODIGOUMA: TFloatField;
+    cdsOcorrenciasNUMOS: TFloatField;
+    cdsOcorrenciasDATAINCLUSAO: TDateTimeField;
+    cdsOcorrenciasUSUARIOINCLUSAO: TIntegerField;
+    cdsOcorrenciasDESCRICAOPROBLEMA: TStringField;
+    cdsOcorrenciasNOME: TStringField;
+    cdsOcorrenciasTIPOOS: TIntegerField;
+    cdsOcorrenciasNUMONDA: TIntegerField;
+    cdsOcorrenciasNUMORDEM: TIntegerField;
+    cdsOcorrenciasDATAONDA: TDateTimeField;
+    cdsOcorrenciasCODIGOENDERECO: TFloatField;
+    cdsOcorrenciasDEPOSITO: TIntegerField;
+    cdsOcorrenciasRUA: TIntegerField;
+    cdsOcorrenciasPREDIO: TIntegerField;
+    cdsOcorrenciasNIVEL: TIntegerField;
+    cdsOcorrenciasAPTO: TIntegerField;
+    cdsOcorrenciasDESCTIPOOS: TStringField;
+    cdsOcorrenciasSELECIONADO: TStringField;
+    cdsOcorrenciasCODMOTIVO: TIntegerField;
+    cdsOcorrenciasCODPROD: TIntegerField;
+    cdsOcorrenciasPRODUTO: TStringField;
+    cdsOcorrenciasREGISTROS_MESMA_OS: TFloatField;
+    cdsOcorrenciasCALC_SELECIONADO: TIntegerField;
+    cdsOcorrenciasCALC_REINCIDENTE: TStringField;
+    cdsOcorrenciasAGG_SELECIONADO: TAggregateField;
+    procedure cdsOcorrenciasCalcFields(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -70,5 +63,31 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TDMDB.cdsOcorrenciasCalcFields(DataSet: TDataSet);
+var
+  selecionado: integer;
+  reincidente: string;
+begin
+
+  selecionado := 0;
+  reincidente := 'N';
+
+  if cdsOcorrenciasSELECIONADO.AsString = 'S' then
+  begin
+
+    selecionado := 1;
+  end;
+
+  if cdsOcorrenciasREGISTROS_MESMA_OS.AsFloat > 1 then
+  begin
+
+    reincidente := 'S';
+  end;
+
+  cdsOcorrenciasCALC_SELECIONADO.Value := selecionado;
+  cdsOcorrenciasCALC_REINCIDENTE.Value := reincidente;
+
+end;
 
 end.

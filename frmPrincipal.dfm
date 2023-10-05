@@ -2,124 +2,236 @@ object Principal: TPrincipal
   Left = 0
   Top = 0
   Caption = '.'
-  ClientHeight = 228
-  ClientWidth = 221
+  ClientHeight = 608
+  ClientWidth = 579
   Color = clBtnFace
   Constraints.MinHeight = 266
   Constraints.MinWidth = 237
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Height = -13
+  Font.Name = 'Verdana'
   Font.Style = []
   OldCreateOrder = False
   WindowState = wsMaximized
   OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 16
   object Label1: TLabel
     Left = 8
     Top = 0
-    Width = 18
-    Height = 13
+    Width = 25
+    Height = 16
     Caption = 'OS:'
   end
   object Label2: TLabel
     Left = 32
     Top = 0
-    Width = 6
-    Height = 13
+    Width = 8
+    Height = 16
     Caption = '0'
   end
   object Label7: TLabel
     Left = 8
     Top = 8
-    Width = 18
-    Height = 13
+    Width = 25
+    Height = 16
     Caption = 'OS:'
   end
   object Label8: TLabel
     Left = 32
     Top = 8
-    Width = 6
-    Height = 13
+    Width = 8
+    Height = 16
     Caption = '0'
   end
   object pcTelaPrincipal: TcxPageControl
     Left = 0
     Top = 0
-    Width = 221
-    Height = 228
+    Width = 579
+    Height = 608
     Align = alClient
     TabOrder = 0
     Properties.ActivePage = tab_ListadeOcorrencias
     Properties.CustomButtons.Buttons = <>
-    ClientRectBottom = 224
-    ClientRectLeft = 4
-    ClientRectRight = 217
-    ClientRectTop = 24
+    ExplicitWidth = 221
+    ExplicitHeight = 228
+    ClientRectBottom = 605
+    ClientRectLeft = 2
+    ClientRectRight = 576
+    ClientRectTop = 30
     object tab_ListadeOcorrencias: TcxTabSheet
       Caption = 'Ocorr'#234'ncias'
       ImageIndex = 0
+      ExplicitLeft = 3
+      ExplicitWidth = 784
+      ExplicitHeight = 557
+      DesignSize = (
+        574
+        575)
       object grdOcorrencias: TcxGrid
         Left = 0
         Top = 33
-        Width = 213
-        Height = 167
-        Align = alClient
+        Width = 575
+        Height = 498
+        Align = alCustom
+        Anchors = [akLeft, akTop, akRight, akBottom]
         TabOrder = 0
+        ExplicitWidth = 785
+        ExplicitHeight = 480
         object grdOcorrenciasDBTableView1: TcxGridDBTableView
           OnDblClick = grdOcorrenciasDBTableView1DblClick
           Navigator.Buttons.CustomButtons = <>
           DataController.DataSource = DMDB.dsOcorrencias
+          DataController.Options = [dcoAssignGroupingValues, dcoAssignMasterDetailKeys, dcoSaveExpanding, dcoImmediatePost]
           DataController.Summary.DefaultGroupSummaryItems = <>
-          DataController.Summary.FooterSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <
+            item
+              Kind = skCount
+              Column = clData
+            end
+            item
+              Format = '0'
+              Kind = skSum
+              FieldName = 'CALC_SELECIONADO'
+              Column = grdOcorrenciasDBTableView1SELECIONADO
+            end>
           DataController.Summary.SummaryGroups = <>
+          OptionsCustomize.ColumnsQuickCustomization = True
+          OptionsData.CancelOnExit = False
           OptionsData.Deleting = False
-          OptionsData.Editing = False
           OptionsData.Inserting = False
+          OptionsView.NoDataToDisplayInfoText = 'Sem dados para serem exibidos'
+          OptionsView.Footer = True
           OptionsView.GroupByBox = False
+          object grdOcorrenciasDBTableView1SELECIONADO: TcxGridDBColumn
+            Caption = 'Selecionado'
+            DataBinding.FieldName = 'SELECIONADO'
+            PropertiesClassName = 'TcxCheckBoxProperties'
+            Properties.ValueChecked = 'S'
+            Properties.ValueUnchecked = 'N'
+            Properties.OnChange = grdOcorrenciasDBTableView1SELECIONADOPropertiesChange
+            Options.Moving = False
+            VisibleForCustomization = False
+            Width = 96
+          end
           object clData: TcxGridDBColumn
             Caption = 'Data'
             DataBinding.FieldName = 'datainclusao'
-          end
-          object clRua: TcxGridDBColumn
-            Caption = 'Rua'
-            DataBinding.FieldName = 'rua'
-            Width = 32
+            Options.Editing = False
           end
           object clQuemLancou: TcxGridDBColumn
             Caption = 'Quem lan'#231'ou'
             DataBinding.FieldName = 'nome'
+            Options.Editing = False
             Width = 169
           end
           object clNumOS: TcxGridDBColumn
             Caption = 'Num.OS'
             DataBinding.FieldName = 'numos'
+            Options.Editing = False
           end
           object clUMA: TcxGridDBColumn
             Caption = 'U.M.A.'
             DataBinding.FieldName = 'codigouma'
+            Options.Editing = False
           end
           object clDataOnda: TcxGridDBColumn
             Caption = 'Data Onda'
             DataBinding.FieldName = 'dataonda'
+            Options.Editing = False
           end
           object clNumOnda: TcxGridDBColumn
             Caption = 'Num. Onda'
             DataBinding.FieldName = 'numonda'
+            Options.Editing = False
           end
           object clNumOrdem: TcxGridDBColumn
             Caption = 'Num. Ordem'
             DataBinding.FieldName = 'numordem'
+            Options.Editing = False
           end
           object grdOcorrenciasDBTableView1tipoos: TcxGridDBColumn
             Caption = 'Tipo da O.S.'
             DataBinding.FieldName = 'tipoos'
+            Options.Editing = False
           end
           object grdOcorrenciasDBTableView1desctipoos: TcxGridDBColumn
             Caption = 'Descri'#231#227'o'
             DataBinding.FieldName = 'desctipoos'
+            Options.Editing = False
+          end
+          object grdOcorrenciasDBTableView1USUARIOINCLUSAO: TcxGridDBColumn
+            DataBinding.FieldName = 'USUARIOINCLUSAO'
+            Visible = False
+            Options.Editing = False
+            VisibleForCustomization = False
+          end
+          object grdOcorrenciasDBTableView1CODMOTIVO: TcxGridDBColumn
+            Caption = 'C'#243'd. motivo'
+            DataBinding.FieldName = 'CODMOTIVO'
+            Options.Editing = False
+          end
+          object grdOcorrenciasDBTableView1DESCRICAOPROBLEMA: TcxGridDBColumn
+            Caption = 'Motivo da pend'#234'ncia'
+            DataBinding.FieldName = 'DESCRICAOPROBLEMA'
+            Options.Editing = False
+          end
+          object grdOcorrenciasDBTableView1CODIGOENDERECO: TcxGridDBColumn
+            Caption = 'C'#243'd. Endere'#231'o'
+            DataBinding.FieldName = 'CODIGOENDERECO'
+            Options.Editing = False
+          end
+          object grdOcorrenciasDBTableView1DEPOSITO: TcxGridDBColumn
+            Caption = 'Dep'#243'sito'
+            DataBinding.FieldName = 'DEPOSITO'
+            Options.Editing = False
+          end
+          object clRua: TcxGridDBColumn
+            Caption = 'Rua'
+            DataBinding.FieldName = 'rua'
+            Options.Editing = False
+            Width = 32
+          end
+          object grdOcorrenciasDBTableView1PREDIO: TcxGridDBColumn
+            Caption = 'Pr'#233'dio'
+            DataBinding.FieldName = 'PREDIO'
+            Options.Editing = False
+          end
+          object grdOcorrenciasDBTableView1NIVEL: TcxGridDBColumn
+            Caption = 'N'#237'vel'
+            DataBinding.FieldName = 'NIVEL'
+            Options.Editing = False
+          end
+          object grdOcorrenciasDBTableView1APTO: TcxGridDBColumn
+            Caption = 'Apto.'
+            DataBinding.FieldName = 'APTO'
+            Options.Editing = False
+          end
+          object grdOcorrenciasDBTableView1CODPROD: TcxGridDBColumn
+            Caption = 'C'#243'd. Produto'
+            DataBinding.FieldName = 'CODPROD'
+            Options.Editing = False
+          end
+          object grdOcorrenciasDBTableView1PRODUTO: TcxGridDBColumn
+            Caption = 'Produto'
+            DataBinding.FieldName = 'PRODUTO'
+            Options.Editing = False
+          end
+          object grdOcorrenciasDBTableView1REGISTROS_MESMA_OS: TcxGridDBColumn
+            Caption = 'Qtd. registros ocorr'#234'ncias nessa OS'
+            DataBinding.FieldName = 'REGISTROS_MESMA_OS'
+            Options.Editing = False
+          end
+          object grdOcorrenciasDBTableView1CALC_SELECIONADO: TcxGridDBColumn
+            DataBinding.FieldName = 'CALC_SELECIONADO'
+            Visible = False
+            VisibleForCustomization = False
+          end
+          object grdOcorrenciasDBTableView1CALC_REINCIDENTE: TcxGridDBColumn
+            Caption = 'Reincidente'
+            DataBinding.FieldName = 'CALC_REINCIDENTE'
+            Width = 144
           end
         end
         object grdOcorrenciasLevel1: TcxGridLevel
@@ -129,120 +241,152 @@ object Principal: TPrincipal
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 213
+        Width = 574
         Height = 33
         Align = alTop
         Color = clWhite
         TabOrder = 1
+        ExplicitWidth = 213
         object btnAtualiza: TcxButton
-          Left = 0
+          Left = 6
           Top = 3
           Width = 75
           Height = 25
-          Caption = 'Atualiza'
+          Caption = 'Atualizar'
           TabOrder = 0
           OnClick = btnAtualizaClick
         end
+      end
+      object btnMarcarTodos: TcxButton
+        Left = 6
+        Top = 544
+        Width = 129
+        Height = 25
+        Anchors = [akLeft, akBottom]
+        Caption = 'Marcar todos'
+        TabOrder = 2
+        OnClick = btnMarcarTodosClick
+        ExplicitTop = 526
+      end
+      object btnDesmarcarTodos: TcxButton
+        Left = 141
+        Top = 544
+        Width = 129
+        Height = 25
+        Anchors = [akLeft, akBottom]
+        Caption = 'Desmarcar todos'
+        TabOrder = 3
+        OnClick = btnDesmarcarTodosClick
+      end
+      object btnLiberarSelecionados: TcxButton
+        Left = 400
+        Top = 544
+        Width = 168
+        Height = 25
+        Anchors = [akRight, akBottom]
+        Caption = 'Liberar selecionados'
+        TabOrder = 4
+        OnClick = btnLiberarSelecionadosClick
       end
     end
     object tab_FinalizaOcorrencia: TcxTabSheet
       Caption = 'Finaliza ocorr'#234'ncia'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitLeft = 4
+      ExplicitTop = 27
+      ExplicitWidth = 213
+      ExplicitHeight = 197
       object pnCabecalho: TPanel
         Left = 0
         Top = 0
-        Width = 221
-        Height = 89
+        Width = 574
+        Height = 105
         Align = alTop
         Color = clWhite
         TabOrder = 0
         object lblnumoslbl: TLabel
-          Left = 1
-          Top = 8
-          Width = 18
-          Height = 13
+          Left = 6
+          Top = 5
+          Width = 25
+          Height = 16
           Caption = 'OS:'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
+          Font.Height = -13
+          Font.Name = 'Verdana'
           Font.Style = [fsBold]
           ParentFont = False
         end
         object lblnumos: TLabel
-          Left = 24
-          Top = 8
-          Width = 6
-          Height = 13
+          Left = 41
+          Top = 5
+          Width = 8
+          Height = 16
           Caption = '0'
         end
         object lblumalbl: TLabel
-          Left = 88
-          Top = 8
-          Width = 38
-          Height = 13
+          Left = 6
+          Top = 28
+          Width = 52
+          Height = 16
           Caption = 'U.M.A.:'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
+          Font.Height = -13
+          Font.Name = 'Verdana'
           Font.Style = [fsBold]
           ParentFont = False
         end
         object lbluma: TLabel
-          Left = 132
-          Top = 8
-          Width = 6
-          Height = 13
+          Left = 62
+          Top = 28
+          Width = 8
+          Height = 16
           Caption = '0'
         end
         object lbldatalbl: TLabel
-          Left = 1
-          Top = 27
-          Width = 93
-          Height = 13
-          Caption = 'Data ocorr'#234'ncia:'
+          Left = 6
+          Top = 52
+          Width = 107
+          Height = 16
+          Caption = 'Dt. ocorr'#234'ncia:'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
+          Font.Height = -13
+          Font.Name = 'Verdana'
           Font.Style = [fsBold]
           ParentFont = False
         end
         object lbldata: TLabel
-          Left = 98
-          Top = 27
-          Width = 44
-          Height = 13
+          Left = 120
+          Top = 52
+          Width = 60
+          Height = 16
           Caption = '00/00/00'
         end
         object lblFunclbl: TLabel
-          Left = 1
-          Top = 46
-          Width = 32
-          Height = 13
+          Left = 6
+          Top = 76
+          Width = 45
+          Height = 16
           Caption = 'Func.:'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
+          Font.Height = -13
+          Font.Name = 'Verdana'
           Font.Style = [fsBold]
           ParentFont = False
         end
         object lblfunc: TLabel
-          Left = 37
-          Top = 46
-          Width = 4
-          Height = 13
-          Caption = '-'
+          Left = 57
+          Top = 76
+          Width = 134
+          Height = 16
+          Caption = 'Nome do funcion'#225'rio'
         end
         object lblProblema: TLabel
-          Left = 1
-          Top = 61
+          Left = 197
+          Top = 46
           Width = 220
           Height = 27
           AutoSize = False
@@ -260,130 +404,153 @@ object Principal: TPrincipal
       end
       object pnAutoriza: TPanel
         Left = 0
-        Top = 89
-        Width = 221
-        Height = 73
+        Top = 105
+        Width = 574
+        Height = 428
         Align = alClient
         Color = clWhite
         TabOrder = 1
+        ExplicitTop = 89
+        ExplicitWidth = 213
+        ExplicitHeight = 66
         object Shape1: TShape
-          Left = 19
-          Top = 3
-          Width = 182
-          Height = 36
+          Left = 6
+          Top = 6
+          Width = 252
+          Height = 49
         end
         object lblDeplbl: TLabel
-          Left = 24
-          Top = 5
-          Width = 25
-          Height = 13
+          Left = 6
+          Top = 9
+          Width = 60
+          Height = 16
+          Alignment = taCenter
+          AutoSize = False
           Caption = 'Dep.'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
+          Font.Height = -13
+          Font.Name = 'Verdana'
           Font.Style = [fsBold]
           ParentFont = False
         end
         object lblDep: TLabel
-          Left = 28
-          Top = 24
-          Width = 6
-          Height = 13
+          Left = 6
+          Top = 28
+          Width = 60
+          Height = 16
+          Alignment = taCenter
+          AutoSize = False
           Caption = '0'
         end
         object lblRualbl: TLabel
-          Left = 53
-          Top = 5
-          Width = 22
-          Height = 13
+          Left = 54
+          Top = 9
+          Width = 60
+          Height = 16
+          Alignment = taCenter
+          AutoSize = False
           Caption = 'Rua'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
+          Font.Height = -13
+          Font.Name = 'Verdana'
           Font.Style = [fsBold]
           ParentFont = False
         end
         object lblRua: TLabel
-          Left = 55
-          Top = 24
-          Width = 6
-          Height = 13
+          Left = 54
+          Top = 28
+          Width = 60
+          Height = 16
+          Alignment = taCenter
+          AutoSize = False
           Caption = '0'
         end
         object lblPrediolbl: TLabel
-          Left = 93
-          Top = 5
-          Width = 29
-          Height = 13
+          Left = 102
+          Top = 9
+          Width = 60
+          Height = 16
+          Alignment = taCenter
+          AutoSize = False
           Caption = 'Pred.'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
+          Font.Height = -13
+          Font.Name = 'Verdana'
           Font.Style = [fsBold]
           ParentFont = False
         end
         object lblPredio: TLabel
-          Left = 98
-          Top = 24
-          Width = 6
-          Height = 13
+          Left = 102
+          Top = 28
+          Width = 60
+          Height = 16
+          Alignment = taCenter
+          AutoSize = False
           Caption = '0'
         end
         object lblNivellbl: TLabel
-          Left = 136
-          Top = 5
-          Width = 20
-          Height = 13
+          Left = 150
+          Top = 9
+          Width = 60
+          Height = 16
+          Alignment = taCenter
+          AutoSize = False
           Caption = 'Niv.'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
+          Font.Height = -13
+          Font.Name = 'Verdana'
           Font.Style = [fsBold]
           ParentFont = False
         end
         object lblNivel: TLabel
-          Left = 136
-          Top = 24
-          Width = 6
-          Height = 13
+          Left = 150
+          Top = 28
+          Width = 60
+          Height = 16
+          Alignment = taCenter
+          AutoSize = False
           Caption = '0'
         end
         object lblApto: TLabel
-          Left = 168
-          Top = 24
-          Width = 6
-          Height = 13
+          Left = 198
+          Top = 28
+          Width = 60
+          Height = 16
+          Alignment = taCenter
+          AutoSize = False
           Caption = '0'
         end
         object lblAptolbl: TLabel
-          Left = 168
-          Top = 5
-          Width = 27
-          Height = 13
+          Left = 198
+          Top = 10
+          Width = 60
+          Height = 16
+          Alignment = taCenter
+          AutoSize = False
           Caption = 'Apto'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
+          Font.Height = -13
+          Font.Name = 'Verdana'
           Font.Style = [fsBold]
           ParentFont = False
         end
         object edtEndereco: TcxTextEdit
-          Left = 1
-          Top = 46
+          Left = 6
+          Top = 61
           TabOrder = 0
           OnKeyPress = edtEnderecoKeyPress
           OnKeyUp = edtEnderecoKeyUp
           Width = 148
         end
         object btnAutorizar: TcxButton
-          Left = 155
-          Top = 42
-          Width = 57
+          Left = 172
+          Top = 61
+          Width = 86
           Height = 25
           Caption = 'Autorizar'
           TabOrder = 1
@@ -392,15 +559,17 @@ object Principal: TPrincipal
       end
       object pnBotoes: TPanel
         Left = 0
-        Top = 162
-        Width = 221
+        Top = 533
+        Width = 574
         Height = 42
         Align = alBottom
         Color = clWhite
         TabOrder = 2
+        ExplicitTop = 155
+        ExplicitWidth = 213
         object btnCancelar: TcxButton
-          Left = 48
-          Top = 6
+          Left = 6
+          Top = 10
           Width = 127
           Height = 25
           Caption = 'Cancelar'
@@ -411,11 +580,18 @@ object Principal: TPrincipal
     end
   end
   object ListadeAcoes: TActionList
-    Left = 80
-    Top = 72
+    Left = 296
+    Top = 56
     object actAutorizaLiberacao: TAction
       Caption = 'actAutorizaLiberacao'
       OnExecute = actAutorizaLiberacaoExecute
     end
+  end
+  object cxLookAndFeelController1: TcxLookAndFeelController
+    NativeStyle = False
+    ScrollbarMode = sbmClassic
+    SkinName = 'SevenClassic'
+    Left = 388
+    Top = 156
   end
 end

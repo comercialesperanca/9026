@@ -16,7 +16,7 @@ uses
   dxSkinOffice2016Dark, dxSkinOffice2019Colorful, dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic, dxSkinSharp, dxSkinSharpPlus, dxSkinSilver,
   dxSkinSpringtime, dxSkinStardust, dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinTheBezier, dxSkinsDefaultPainters, dxSkinValentine,
   dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark, dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint, dxSkinXmas2008Blue,
-  dxBarBuiltInMenu, cxNavigator, dxDateRanges, System.Actions;
+  dxBarBuiltInMenu, cxNavigator, dxDateRanges, System.Actions, cxCheckBox;
 
 type
   TPrincipal = class(TForm)
@@ -65,19 +65,40 @@ type
     Panel1: TPanel;
     btnAtualiza: TcxButton;
     Shape1: TShape;
-    clNumOnda: TcxGridDBColumn; 
+    clNumOnda: TcxGridDBColumn;
     clNumOrdem: TcxGridDBColumn;
     clDataOnda: TcxGridDBColumn;
     grdOcorrenciasDBTableView1tipoos: TcxGridDBColumn;
     grdOcorrenciasDBTableView1desctipoos: TcxGridDBColumn;
+    cxLookAndFeelController1: TcxLookAndFeelController;
+    grdOcorrenciasDBTableView1USUARIOINCLUSAO: TcxGridDBColumn;
+    grdOcorrenciasDBTableView1DESCRICAOPROBLEMA: TcxGridDBColumn;
+    grdOcorrenciasDBTableView1CODIGOENDERECO: TcxGridDBColumn;
+    grdOcorrenciasDBTableView1DEPOSITO: TcxGridDBColumn;
+    grdOcorrenciasDBTableView1PREDIO: TcxGridDBColumn;
+    grdOcorrenciasDBTableView1NIVEL: TcxGridDBColumn;
+    grdOcorrenciasDBTableView1APTO: TcxGridDBColumn;
+    grdOcorrenciasDBTableView1SELECIONADO: TcxGridDBColumn;
+    grdOcorrenciasDBTableView1CODMOTIVO: TcxGridDBColumn;
+    grdOcorrenciasDBTableView1CODPROD: TcxGridDBColumn;
+    grdOcorrenciasDBTableView1PRODUTO: TcxGridDBColumn;
+    grdOcorrenciasDBTableView1REGISTROS_MESMA_OS: TcxGridDBColumn;
+    grdOcorrenciasDBTableView1CALC_SELECIONADO: TcxGridDBColumn;
+    grdOcorrenciasDBTableView1CALC_REINCIDENTE: TcxGridDBColumn;
+    btnMarcarTodos: TcxButton;
+    btnDesmarcarTodos: TcxButton;
+    btnLiberarSelecionados: TcxButton;
     procedure btnAtualizaClick(Sender: TObject);
-    procedure edtEnderecoKeyUp(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure edtEnderecoKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edtEnderecoKeyPress(Sender: TObject; var Key: Char);
     procedure actAutorizaLiberacaoExecute(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure grdOcorrenciasDBTableView1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure grdOcorrenciasDBTableView1SELECIONADOPropertiesChange(Sender: TObject);
+    procedure btnMarcarTodosClick(Sender: TObject);
+    procedure btnDesmarcarTodosClick(Sender: TObject);
+    procedure btnLiberarSelecionadosClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -93,35 +114,35 @@ uses UFRMdmdb, UVariaveiseFuncoes, ULibrary;
 
 {$R *.dfm}
 
-///  Versão:       1.0.0.0
+/// Versão:       1.0.0.0
 procedure TPrincipal.actAutorizaLiberacaoExecute(Sender: TObject);
 begin
 
-  if strtofloat(edtEndereco.Text)=CodEndereco then
+  if strtofloat(edtEndereco.Text) <> CodEndereco then
+  begin
+
+    edtEndereco.Text := '';
+    ExibirMensagem('Endereço não confere com o solicitado!', 1);
+    Exit;
+  end;
+
+  edtEndereco.Text := '';
+
+  if LiberaOcorrencia(OSAtual, UMAAtual, Usuario.Matricula) then
   Begin
-    edtEndereco.Text:='';
-    if LiberaOcorrencia(OSAtual
-                        ,UMAAtual
-                        ,Usuario.Matricula) then
-    Begin
 
-      ExibirMensagem('OS: '+floattostr(OSAtual)+' foi liberada da ocorrência!',2);
+    ExibirMensagem('OS: ' + floattostr(OSAtual) + ' foi liberada da ocorrência!', 2);
 
-      tab_ListadeOcorrencias.TabVisible:=true;
-      tab_FinalizaOcorrencia.TabVisible:=false;
-      pcTelaPrincipal.ActivePage:=tab_ListadeOcorrencias;
+    tab_ListadeOcorrencias.TabVisible := true;
+    tab_FinalizaOcorrencia.TabVisible := false;
+    pcTelaPrincipal.ActivePage := tab_ListadeOcorrencias;
 
-      ProcuraOcorrencias();
+    ProcuraOcorrencias();
 
-    end else
-    Begin
-      ExibirMensagem('Falha na liberação da OS, por favor tente novamente!',1) ;
-      edtEndereco.SetFocus;
-    end;
-  end else
+  end
+  else
   Begin
-    edtEndereco.Text:='';
-    ExibirMensagem('Endereço não confere com o solicitado!',1);
+    ExibirMensagem('Falha na liberação da OS, por favor tente novamente!', 1);
     edtEndereco.SetFocus;
   end;
 
@@ -137,48 +158,81 @@ end;
 procedure TPrincipal.btnCancelarClick(Sender: TObject);
 begin
 
-  tab_ListadeOcorrencias.TabVisible:=true;
-  tab_FinalizaOcorrencia.TabVisible:=false;
-  pcTelaPrincipal.ActivePage:=tab_ListadeOcorrencias;
+  tab_ListadeOcorrencias.TabVisible := true;
+  tab_FinalizaOcorrencia.TabVisible := false;
+  pcTelaPrincipal.ActivePage := tab_ListadeOcorrencias;
+
+end;
+
+procedure TPrincipal.btnDesmarcarTodosClick(Sender: TObject);
+begin
+
+  MarcarDesmarcarTodos(false);
+
+end;
+
+procedure TPrincipal.btnLiberarSelecionadosClick(Sender: TObject);
+var
+  total: integer;
+begin
+
+  total := LiberarOcorrenciaMultiplas();
+
+  if total > 1 then
+  begin
+
+     ExibirMensagem(floattostr(total) + ' OSs liberadas da ocorrência!', 2);
+  end;
+
+  ProcuraOcorrencias();
+
+end;
+
+procedure TPrincipal.btnMarcarTodosClick(Sender: TObject);
+begin
+
+  MarcarDesmarcarTodos(true);
 
 end;
 
 procedure TPrincipal.edtEnderecoKeyPress(Sender: TObject; var Key: Char);
 begin
 
-  if not (key in ['0'..'9', #8,#13]) then
+  if not(Key in ['0' .. '9', #8, #13]) then
   Begin
-     key := #0;
-  end else
+    Key := #0;
+  end
+  else
   Begin
 
-     if edtEndereco.SelLength>1 then edtEndereco.Text:='';
+    if edtEndereco.SelLength > 1 then
+      edtEndereco.Text := '';
 
-     if (key in [#13]) and (edtEndereco.Text<>'') then
-     Begin
-       actAutorizaLiberacao.Execute;
-     end;
+    if (Key in [#13]) and (edtEndereco.Text <> '') then
+    Begin
+      actAutorizaLiberacao.Execute;
+    end;
 
   end;
 
-  
-
 end;
 
-procedure TPrincipal.edtEnderecoKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TPrincipal.edtEnderecoKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
 
-  if edtEndereco.Text<>'' then btnAutorizar.Enabled:=true else btnAutorizar.Enabled:=false;
+  if edtEndereco.Text <> '' then
+    btnAutorizar.Enabled := true
+  else
+    btnAutorizar.Enabled := false;
 
 end;
 
 procedure TPrincipal.FormShow(Sender: TObject);
 begin
 
-  tab_ListadeOcorrencias.TabVisible:=true;
-  tab_FinalizaOcorrencia.TabVisible:=false;
-  pcTelaPrincipal.ActivePage:=tab_ListadeOcorrencias;
+  tab_ListadeOcorrencias.TabVisible := true;
+  tab_FinalizaOcorrencia.TabVisible := false;
+  pcTelaPrincipal.ActivePage := tab_ListadeOcorrencias;
 
   ProcuraOcorrencias();
 end;
@@ -186,34 +240,17 @@ end;
 procedure TPrincipal.grdOcorrenciasDBTableView1DblClick(Sender: TObject);
 begin
 
-  if dmdb.cdsOcorrencias.RecordCount>0 then
-  Begin
-    lblnumos.Caption   :=floattostr(dmdb.cdsOcorrencias.FieldByName('NUMOS').Value);
-    lbluma.Caption     :=floattostr(dmdb.cdsOcorrencias.FieldByName('CODIGOUMA').Value);
-    lbldata.Caption    :=datetostr(dmdb.cdsOcorrencias.FieldByName('DATAINCLUSAO').Value);
-    lblfunc.Caption    :=dmdb.cdsOcorrencias.FieldByName('NOME').Value;
-    lblProblema.Caption:=dmdb.cdsOcorrencias.FieldByName('DESCRICAOPROBLEMA').Value;
+  LiberarOcorrenciaUnica();
 
-    lblDep.Caption   :=dmdb.cdsOcorrencias.FieldByName('deposito').Value;
-    lblRua.Caption   :=dmdb.cdsOcorrencias.FieldByName('rua').Value;
-    lblPredio.Caption:=dmdb.cdsOcorrencias.FieldByName('predio').Value;
-    lblNivel.Caption :=dmdb.cdsOcorrencias.FieldByName('nivel').Value;
-    lblApto.Caption  :=dmdb.cdsOcorrencias.FieldByName('apto').Value;
+end;
 
-    OSAtual    :=dmdb.cdsOcorrencias.FieldByName('NUMOS').Value;
-    UMAAtual   :=dmdb.cdsOcorrencias.FieldByName('CODIGOUMA').Value;
-    CodEndereco:=dmdb.cdsOcorrencias.FieldByName('CODIGOENDERECO').Value;
+procedure TPrincipal.grdOcorrenciasDBTableView1SELECIONADOPropertiesChange(Sender: TObject);
+begin
 
-    tab_ListadeOcorrencias.TabVisible:=false;
-    tab_FinalizaOcorrencia.TabVisible:=true;
-    pcTelaPrincipal.ActivePage       :=tab_FinalizaOcorrencia;
+  if dmdb.cdsOcorrencias.State = dsEdit then
+  begin
 
-    btnCancelar.Enabled:=true;
-
-    pnAutoriza.Enabled  :=true;
-    btnAutorizar.Enabled:=false;
-    edtEndereco.Text    :='';
-    edtEndereco.SetFocus;
+    dmdb.cdsOcorrencias.Post;
   end;
 
 end;

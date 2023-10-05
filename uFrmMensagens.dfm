@@ -54,9 +54,11 @@ object frmMensagens: TfrmMensagens
     Style.Color = clBlack
     Style.Font.Charset = DEFAULT_CHARSET
     Style.Font.Color = clWhite
-    Style.Font.Height = -13
-    Style.Font.Name = 'Tahoma'
+    Style.Font.Height = -16
+    Style.Font.Name = 'Verdana'
     Style.Font.Style = []
+    Style.TextColor = clWhite
+    Style.TextStyle = []
     Style.IsFontAssigned = True
     TabOrder = 1
     Height = 137
