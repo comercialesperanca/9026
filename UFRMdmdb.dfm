@@ -73,8 +73,7 @@ object DMDB: TDMDB
     Left = 32
     Top = 64
   end
-  object qryOcorrencias: TQuery
-    DatabaseName = 'BDEConnection'
+  object qryOcorrencias: TOraQuery
     SQL.Strings = (
       'with ocorrencias as ('
       'select '
@@ -179,8 +178,7 @@ object DMDB: TDMDB
       Size = 200
     end
   end
-  object qryLiberaOcorrencia: TQuery
-    DatabaseName = 'BDEConnection'
+  object qryLiberaOcorrencia: TOraQuery
     SQL.Strings = (
       'update booscompendencia'
       'set dataliberacao=sysdate'
@@ -194,17 +192,17 @@ object DMDB: TDMDB
       item
         DataType = ftUnknown
         Name = 'MATRICULA'
-        ParamType = ptUnknown
+        Value = nil
       end
       item
         DataType = ftUnknown
         Name = 'CODIGOUMA'
-        ParamType = ptUnknown
+        Value = nil
       end
       item
         DataType = ftUnknown
         Name = 'NUMOS'
-        ParamType = ptUnknown
+        Value = nil
       end>
     object FloatField1: TFloatField
       FieldName = 'codigouma'
@@ -242,8 +240,7 @@ object DMDB: TDMDB
       FieldName = 'datainclusao'
     end
   end
-  object qryLiberaOS: TQuery
-    DatabaseName = 'BDEConnection'
+  object qryLiberaOS: TOraQuery
     SQL.Strings = (
       'update pcmovendpend'
       'set'
@@ -263,7 +260,7 @@ object DMDB: TDMDB
       item
         DataType = ftUnknown
         Name = 'NUMOS'
-        ParamType = ptUnknown
+        Value = nil
       end>
   end
 end

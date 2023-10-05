@@ -50,11 +50,13 @@ object Principal: TPrincipal
     Top = 0
     Width = 221
     Height = 228
-    ActivePage = tab_ListadeOcorrencias
     Align = alClient
     TabOrder = 0
-    ClientRectBottom = 228
-    ClientRectRight = 221
+    Properties.ActivePage = tab_ListadeOcorrencias
+    Properties.CustomButtons.Buttons = <>
+    ClientRectBottom = 224
+    ClientRectLeft = 4
+    ClientRectRight = 217
     ClientRectTop = 24
     object tab_ListadeOcorrencias: TcxTabSheet
       Caption = 'Ocorr'#234'ncias'
@@ -62,13 +64,13 @@ object Principal: TPrincipal
       object grdOcorrencias: TcxGrid
         Left = 0
         Top = 33
-        Width = 221
-        Height = 171
+        Width = 213
+        Height = 167
         Align = alClient
         TabOrder = 0
         object grdOcorrenciasDBTableView1: TcxGridDBTableView
           OnDblClick = grdOcorrenciasDBTableView1DblClick
-          NavigatorButtons.ConfirmDelete = False
+          Navigator.Buttons.CustomButtons = <>
           DataController.DataSource = DMDB.dsOcorrencias
           DataController.Summary.DefaultGroupSummaryItems = <>
           DataController.Summary.FooterSummaryItems = <>
@@ -127,7 +129,7 @@ object Principal: TPrincipal
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 221
+        Width = 213
         Height = 33
         Align = alTop
         Color = clWhite
@@ -146,6 +148,10 @@ object Principal: TPrincipal
     object tab_FinalizaOcorrencia: TcxTabSheet
       Caption = 'Finaliza ocorr'#234'ncia'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object pnCabecalho: TPanel
         Left = 0
         Top = 0

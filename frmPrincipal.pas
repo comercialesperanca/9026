@@ -8,7 +8,15 @@ uses
   cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData,
   cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, cxPC, ExtCtrls, StdCtrls,
-  cxContainer, cxTextEdit, Menus, cxButtons, ActnList;
+  cxContainer, cxTextEdit, Menus, cxButtons, ActnList, dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee,
+  dxSkinDarkroom, dxSkinDarkSide, dxSkinDevExpressDarkStyle, dxSkinDevExpressStyle, dxSkinFoggy, dxSkinGlassOceans, dxSkinHighContrast,
+  dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMetropolis, dxSkinMetropolisDark, dxSkinMoneyTwins,
+  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green, dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black,
+  dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinOffice2013DarkGray, dxSkinOffice2013LightGray, dxSkinOffice2013White, dxSkinOffice2016Colorful,
+  dxSkinOffice2016Dark, dxSkinOffice2019Colorful, dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic, dxSkinSharp, dxSkinSharpPlus, dxSkinSilver,
+  dxSkinSpringtime, dxSkinStardust, dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinTheBezier, dxSkinsDefaultPainters, dxSkinValentine,
+  dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark, dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint, dxSkinXmas2008Blue,
+  dxBarBuiltInMenu, cxNavigator, dxDateRanges, System.Actions;
 
 type
   TPrincipal = class(TForm)
@@ -97,7 +105,7 @@ begin
                         ,Usuario.Matricula) then
     Begin
 
-      Menssagens('OS: '+floattostr(OSAtual)+' foi liberada da ocorrência!',2);
+      ExibirMensagem('OS: '+floattostr(OSAtual)+' foi liberada da ocorrência!',2);
 
       tab_ListadeOcorrencias.TabVisible:=true;
       tab_FinalizaOcorrencia.TabVisible:=false;
@@ -107,13 +115,13 @@ begin
 
     end else
     Begin
-      Menssagens('Falha na liberação da OS, por favor tente novamente!',1) ;
+      ExibirMensagem('Falha na liberação da OS, por favor tente novamente!',1) ;
       edtEndereco.SetFocus;
     end;
   end else
   Begin
     edtEndereco.Text:='';
-    Menssagens('Endereço não confere com o solicitado!',1);
+    ExibirMensagem('Endereço não confere com o solicitado!',1);
     edtEndereco.SetFocus;
   end;
 

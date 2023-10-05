@@ -3,14 +3,14 @@ unit UFRMdmdb;
 interface
 
 uses
-  SysUtils, Classes, DBTables, Provider, DB, DBClient;
+  SysUtils, Classes, DBAccess, Ora, OraSmart, MemDS, OraError, Provider, DB, DBClient, MidasLib;
 
 type
   TDMDB = class(TDataModule)
     dsOcorrencias: TDataSource;
     cdsOcorrencias: TClientDataSet;
     dspOcorrencias: TDataSetProvider;
-    qryOcorrencias: TQuery;
+    qryOcorrencias: TOraQuery;
     qryOcorrenciascodigouma: TFloatField;
     qryOcorrenciasnumos: TFloatField;
     qryOcorrenciasusuarioinclusao: TFloatField;
@@ -33,7 +33,7 @@ type
     cdsOcorrenciasapto: TFloatField;
     qryOcorrenciasdatainclusao: TDateTimeField;
     cdsOcorrenciasdatainclusao: TDateTimeField;
-    qryLiberaOcorrencia: TQuery;
+    qryLiberaOcorrencia: TOraQuery;
     FloatField1: TFloatField;
     FloatField2: TFloatField;
     FloatField3: TFloatField;
@@ -57,7 +57,7 @@ type
     qryOcorrenciasdesctipoos: TStringField;
     cdsOcorrenciastipoos: TFloatField;
     cdsOcorrenciasdesctipoos: TStringField;
-    qryLiberaOS: TQuery;
+    qryLiberaOS: TOraQuery;
   private
     { Private declarations }
   public
