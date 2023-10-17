@@ -33,7 +33,6 @@ type
     cdsOcorrenciasNOME: TStringField;
     cdsOcorrenciasTIPOOS: TIntegerField;
     cdsOcorrenciasNUMONDA: TIntegerField;
-    cdsOcorrenciasNUMORDEM: TIntegerField;
     cdsOcorrenciasDATAONDA: TDateTimeField;
     cdsOcorrenciasCODIGOENDERECO: TFloatField;
     cdsOcorrenciasDEPOSITO: TIntegerField;

@@ -42,9 +42,6 @@ object DMDB: TDMDB
     object cdsOcorrenciasNUMONDA: TIntegerField
       FieldName = 'NUMONDA'
     end
-    object cdsOcorrenciasNUMORDEM: TIntegerField
-      FieldName = 'NUMORDEM'
-    end
     object cdsOcorrenciasDATAONDA: TDateTimeField
       FieldName = 'DATAONDA'
     end
@@ -123,7 +120,7 @@ object DMDB: TDMDB
       '                , PCEMPR.NOME'
       '                , MEP.TIPOOS'
       '                , BODEFINEONDAI.NUMONDA'
-      '                , BODEFINEONDAI.NUMORDEM'
+      '                --, BODEFINEONDAI.NUMORDEM'
       '                , BODEFINEONDAI.DATA AS dataonda'
       '                , MEP.CODPROD'
       '                , ( CASE'
@@ -153,9 +150,35 @@ object DMDB: TDMDB
       
         '                       ON BODEFINEONDAI.NUMTRANSWMS = MEP.NUMTRA' +
         'NSWMS'
-      '                       AND BODEFINEONDAI.NUMCAR = MEP.NUMCAR'
+      '                       --AND BODEFINEONDAI.NUMCAR = MEP.NUMCAR'
       '         WHERE  BOOSCOMPENDENCIA.DATALIBERACAO IS NULL'
-      '         '
+      '         GROUP BY BOOSCOMPENDENCIA.CODIGOUMA'
+      '                , BOOSCOMPENDENCIA.NUMOS'
+      '                , BOOSCOMPENDENCIA.DATAINCLUSAO'
+      '                , BOOSCOMPENDENCIA.USUARIOINCLUSAO'
+      '                , BOOSCOMPENDENCIA.DESCRICAOPROBLEMA'
+      '                , BOOSCOMPENDENCIA.CODMOTIVO '
+      '                , PCEMPR.NOME'
+      '                , MEP.TIPOOS'
+      '                , BODEFINEONDAI.NUMONDA'
+      '                , BODEFINEONDAI.DATA'
+      '                , MEP.CODPROD'
+      '                , ( CASE'
+      
+        '                      WHEN MEP.TIPOOS IN ( 17, 23, 98 ) THEN MEP' +
+        '.CODENDERECO'
+      '                      ELSE ( CASE'
+      
+        '                               WHEN MEP.TIPOOS = 61 THEN MEP.COD' +
+        'ENDERECOORIG'
+      '                               ELSE ( CASE'
+      
+        '                                        WHEN MEP.DTINICIOOS IS N' +
+        'ULL THEN MEP.CODENDERECOORIG'
+      '                                        ELSE MEP.CODENDERECO'
+      '                                      END )'
+      '                             END )'
+      '                    END )          '
       '         )'
       'SELECT '#39'N'#39' AS SELECIONADO'
       #9'   , OCORRENCIAS.CODIGOUMA'
@@ -167,7 +190,7 @@ object DMDB: TDMDB
       '       , OCORRENCIAS.NOME'
       '       , OCORRENCIAS.TIPOOS'
       '       , OCORRENCIAS.NUMONDA'
-      '       , OCORRENCIAS.NUMORDEM'
+      '       --, OCORRENCIAS.NUMORDEM'
       '       , OCORRENCIAS.DATAONDA'
       '       , OCORRENCIAS.CODIGOENDERECO'
       '       , OCORRENCIAS.CODPROD'
@@ -191,7 +214,7 @@ object DMDB: TDMDB
       '       LEFT JOIN PCPRODUT'
       '       '#9'ON PCPRODUT.CODPROD = OCORRENCIAS.CODPROD'
       '       LEFT JOIN PCTIPOOS'
-      '              ON PCTIPOOS.CODIGO = OCORRENCIAS.TIPOOS ')
+      '              ON PCTIPOOS.CODIGO = OCORRENCIAS.TIPOOS')
     Left = 32
     Top = 16
   end
@@ -286,6 +309,7 @@ object DMDB: TDMDB
     Options.Direct = True
     Username = 'ESPERANCA'
     Server = '10.0.1.188:1521/WINT'
+    Connected = True
     LoginPrompt = False
     Left = 296
     Top = 160

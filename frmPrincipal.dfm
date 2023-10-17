@@ -54,8 +54,6 @@ object Principal: TPrincipal
     TabOrder = 0
     Properties.ActivePage = tab_ListadeOcorrencias
     Properties.CustomButtons.Buttons = <>
-    ExplicitWidth = 221
-    ExplicitHeight = 228
     ClientRectBottom = 605
     ClientRectLeft = 2
     ClientRectRight = 576
@@ -63,9 +61,6 @@ object Principal: TPrincipal
     object tab_ListadeOcorrencias: TcxTabSheet
       Caption = 'Ocorr'#234'ncias'
       ImageIndex = 0
-      ExplicitLeft = 3
-      ExplicitWidth = 784
-      ExplicitHeight = 557
       DesignSize = (
         574
         575)
@@ -77,8 +72,6 @@ object Principal: TPrincipal
         Align = alCustom
         Anchors = [akLeft, akTop, akRight, akBottom]
         TabOrder = 0
-        ExplicitWidth = 785
-        ExplicitHeight = 480
         object grdOcorrenciasDBTableView1: TcxGridDBTableView
           OnDblClick = grdOcorrenciasDBTableView1DblClick
           Navigator.Buttons.CustomButtons = <>
@@ -144,11 +137,6 @@ object Principal: TPrincipal
           object clNumOnda: TcxGridDBColumn
             Caption = 'Num. Onda'
             DataBinding.FieldName = 'numonda'
-            Options.Editing = False
-          end
-          object clNumOrdem: TcxGridDBColumn
-            Caption = 'Num. Ordem'
-            DataBinding.FieldName = 'numordem'
             Options.Editing = False
           end
           object grdOcorrenciasDBTableView1tipoos: TcxGridDBColumn
@@ -246,7 +234,6 @@ object Principal: TPrincipal
         Align = alTop
         Color = clWhite
         TabOrder = 1
-        ExplicitWidth = 213
         object btnAtualiza: TcxButton
           Left = 6
           Top = 3
@@ -266,7 +253,6 @@ object Principal: TPrincipal
         Caption = 'Marcar todos'
         TabOrder = 2
         OnClick = btnMarcarTodosClick
-        ExplicitTop = 526
       end
       object btnDesmarcarTodos: TcxButton
         Left = 141
@@ -292,10 +278,6 @@ object Principal: TPrincipal
     object tab_FinalizaOcorrencia: TcxTabSheet
       Caption = 'Finaliza ocorr'#234'ncia'
       ImageIndex = 1
-      ExplicitLeft = 4
-      ExplicitTop = 27
-      ExplicitWidth = 213
-      ExplicitHeight = 197
       object pnCabecalho: TPanel
         Left = 0
         Top = 0
@@ -410,9 +392,6 @@ object Principal: TPrincipal
         Align = alClient
         Color = clWhite
         TabOrder = 1
-        ExplicitTop = 89
-        ExplicitWidth = 213
-        ExplicitHeight = 66
         object Shape1: TShape
           Left = 6
           Top = 6
@@ -565,8 +544,6 @@ object Principal: TPrincipal
         Align = alBottom
         Color = clWhite
         TabOrder = 2
-        ExplicitTop = 155
-        ExplicitWidth = 213
         object btnCancelar: TcxButton
           Left = 6
           Top = 10

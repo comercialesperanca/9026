@@ -66,7 +66,6 @@ type
     btnAtualiza: TcxButton;
     Shape1: TShape;
     clNumOnda: TcxGridDBColumn;
-    clNumOrdem: TcxGridDBColumn;
     clDataOnda: TcxGridDBColumn;
     grdOcorrenciasDBTableView1tipoos: TcxGridDBColumn;
     grdOcorrenciasDBTableView1desctipoos: TcxGridDBColumn;
