@@ -108,7 +108,6 @@ object DMDB: TDMDB
     Top = 64
   end
   object qryOcorrencias: TOraQuery
-    Session = OraSession1
     SQL.Strings = (
       'WITH OCORRENCIAS'
       '     AS (SELECT BOOSCOMPENDENCIA.CODIGOUMA'
@@ -120,7 +119,6 @@ object DMDB: TDMDB
       '                , PCEMPR.NOME'
       '                , MEP.TIPOOS'
       '                , BODEFINEONDAI.NUMONDA'
-      '                --, BODEFINEONDAI.NUMORDEM'
       '                , BODEFINEONDAI.DATA AS dataonda'
       '                , MEP.CODPROD'
       '                , ( CASE'
@@ -149,8 +147,7 @@ object DMDB: TDMDB
       '                LEFT JOIN BODEFINEONDAI'
       
         '                       ON BODEFINEONDAI.NUMTRANSWMS = MEP.NUMTRA' +
-        'NSWMS'
-      '                       --AND BODEFINEONDAI.NUMCAR = MEP.NUMCAR'
+        'NSWMS                       '
       '         WHERE  BOOSCOMPENDENCIA.DATALIBERACAO IS NULL'
       '         GROUP BY BOOSCOMPENDENCIA.CODIGOUMA'
       '                , BOOSCOMPENDENCIA.NUMOS'
@@ -190,7 +187,6 @@ object DMDB: TDMDB
       '       , OCORRENCIAS.NOME'
       '       , OCORRENCIAS.TIPOOS'
       '       , OCORRENCIAS.NUMONDA'
-      '       --, OCORRENCIAS.NUMORDEM'
       '       , OCORRENCIAS.DATAONDA'
       '       , OCORRENCIAS.CODIGOENDERECO'
       '       , OCORRENCIAS.CODPROD'
@@ -201,25 +197,44 @@ object DMDB: TDMDB
       '       , PCENDERECO.NIVEL'
       '       , PCENDERECO.APTO'
       '       , PCTIPOOS.DESCRICAO AS desctipoos'
-      '       , (SELECT COUNT(*)'
+      '       , SUM((SELECT COUNT(*)'
       '       '#9'  FROM BOOSCOMPENDENCIA'
       '       '#9'  WHERE BOOSCOMPENDENCIA.NUMOS = OCORRENCIAS.NUMOS'
       
         '       '#9'  AND BOOSCOMPENDENCIA.DATAINCLUSAO >= TRUNC(OCORRENCIAS' +
         '.DATAINCLUSAO) - 30'
-      '       ) AS REGISTROS_MESMA_OS'
+      '       )) AS REGISTROS_MESMA_OS'
       'FROM   OCORRENCIAS'
       '       JOIN PCENDERECO'
       '         ON PCENDERECO.CODENDERECO = OCORRENCIAS.CODIGOENDERECO'
       '       LEFT JOIN PCPRODUT'
       '       '#9'ON PCPRODUT.CODPROD = OCORRENCIAS.CODPROD'
       '       LEFT JOIN PCTIPOOS'
-      '              ON PCTIPOOS.CODIGO = OCORRENCIAS.TIPOOS')
+      '              ON PCTIPOOS.CODIGO = OCORRENCIAS.TIPOOS'
+      'GROUP BY'
+      #9'OCORRENCIAS.CODIGOUMA'
+      '       , OCORRENCIAS.NUMOS'
+      '       , OCORRENCIAS.DATAINCLUSAO'
+      '       , OCORRENCIAS.USUARIOINCLUSAO'
+      '       , OCORRENCIAS.CODMOTIVO'
+      '       , OCORRENCIAS.DESCRICAOPROBLEMA'
+      '       , OCORRENCIAS.NOME'
+      '       , OCORRENCIAS.TIPOOS'
+      '       , OCORRENCIAS.NUMONDA'
+      '       , OCORRENCIAS.DATAONDA'
+      '       , OCORRENCIAS.CODIGOENDERECO'
+      '       , OCORRENCIAS.CODPROD'
+      '       , PCPRODUT.DESCRICAO'
+      '       , PCENDERECO.DEPOSITO'
+      '       , PCENDERECO.RUA'
+      '       , PCENDERECO.PREDIO'
+      '       , PCENDERECO.NIVEL'
+      '       , PCENDERECO.APTO'
+      '       , PCTIPOOS.DESCRICAO')
     Left = 32
     Top = 16
   end
   object qryLiberaOcorrencia: TOraQuery
-    Session = OraSession1
     SQL.Strings = (
       'update booscompendencia'
       'set dataliberacao=sysdate'
@@ -282,7 +297,6 @@ object DMDB: TDMDB
     end
   end
   object qryLiberaOS: TOraQuery
-    Session = OraSession1
     SQL.Strings = (
       'update pcmovendpend'
       'set'
@@ -304,15 +318,5 @@ object DMDB: TDMDB
         Name = 'NUMOS'
         Value = nil
       end>
-  end
-  object OraSession1: TOraSession
-    Options.Direct = True
-    Username = 'ESPERANCA'
-    Server = '10.0.1.188:1521/WINT'
-    Connected = True
-    LoginPrompt = False
-    Left = 296
-    Top = 160
-    EncryptedPassword = 'ABFFBAFFACFFABFFBAFFBAFFACFFAFFFBAFFADFFBEFFB1FFBCFFBEFF'
   end
 end

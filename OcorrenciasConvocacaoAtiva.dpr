@@ -15,13 +15,13 @@ uses
 begin
   Application.Initialize;
   Application.CreateForm(TPrincipal, Principal);
-  Application.CreateForm(TDMDB, DMDB);
-  Application.CreateForm(TfrmMensagens, frmMensagens);
-  //abrirConexaoBDE;
 
   abrirConexaoODAC();
 
+  Application.CreateForm(TDMDB, DMDB);
+
   AtribuiSessionDmd(DMDB, ODACSessionGlobal);
+  Application.CreateForm(TfrmMensagens, frmMensagens);
 
   UsuarioControler:= TUsuarioController.Create(ODACSessionGlobal);
   Usuario:=UsuarioControler.GetUsuarioPorLogin(Paramstr(1));

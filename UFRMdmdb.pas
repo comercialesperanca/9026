@@ -24,7 +24,6 @@ type
     FloatField8: TFloatField;
     DateTimeField1: TDateTimeField;
     qryLiberaOS: TOraQuery;
-    OraSession1: TOraSession;
     cdsOcorrenciasCODIGOUMA: TFloatField;
     cdsOcorrenciasNUMOS: TFloatField;
     cdsOcorrenciasDATAINCLUSAO: TDateTimeField;
