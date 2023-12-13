@@ -1,14 +1,13 @@
 object DMDB: TDMDB
   OldCreateOrder = False
-  Height = 318
-  Width = 464
+  Height = 709
+  Width = 758
   object dsOcorrencias: TDataSource
     DataSet = cdsOcorrencias
     Left = 32
     Top = 160
   end
   object cdsOcorrencias: TClientDataSet
-    Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'dspOcorrencias'
@@ -38,9 +37,6 @@ object DMDB: TDMDB
     end
     object cdsOcorrenciasTIPOOS: TIntegerField
       FieldName = 'TIPOOS'
-    end
-    object cdsOcorrenciasNUMONDA: TIntegerField
-      FieldName = 'NUMONDA'
     end
     object cdsOcorrenciasDATAONDA: TDateTimeField
       FieldName = 'DATAONDA'
@@ -94,6 +90,10 @@ object DMDB: TDMDB
       FieldName = 'CALC_REINCIDENTE'
       Size = 1
     end
+    object cdsOcorrenciasNUMONDA: TFloatField
+      DisplayLabel = 'N'#218'M. ONDA'
+      FieldName = 'NUMONDA'
+    end
     object cdsOcorrenciasAGG_SELECIONADO: TAggregateField
       FieldName = 'AGG_SELECIONADO'
       Required = True
@@ -118,8 +118,12 @@ object DMDB: TDMDB
       '                , BOOSCOMPENDENCIA.CODMOTIVO '
       '                , PCEMPR.NOME'
       '                , MEP.TIPOOS'
-      '                , BODEFINEONDAI.NUMONDA'
-      '                , BODEFINEONDAI.DATA AS dataonda'
+      
+        '                , (SELECT MAX(ONDAI.NUMONDA) FROM BODEFINEONDAI ' +
+        'ONDAI WHERE ONDAI.NUMTRANSWMS = MEP.NUMTRANSWMS  ) AS NUMONDA '
+      
+        '                , (SELECT MAX(ONDAI.DATA) FROM BODEFINEONDAI OND' +
+        'AI WHERE ONDAI.NUMTRANSWMS = MEP.NUMTRANSWMS  ) AS DATAONDA'
       '                , MEP.CODPROD'
       '                , ( CASE'
       
@@ -143,39 +147,10 @@ object DMDB: TDMDB
         '                  ON PCEMPR.MATRICULA = BOOSCOMPENDENCIA.USUARIO' +
         'INCLUSAO'
       '                JOIN PCMOVENDPEND MEP'
-      '                  ON MEP.NUMOS = BOOSCOMPENDENCIA.NUMOS'
-      '                LEFT JOIN BODEFINEONDAI'
       
-        '                       ON BODEFINEONDAI.NUMTRANSWMS = MEP.NUMTRA' +
-        'NSWMS                       '
-      '         WHERE  BOOSCOMPENDENCIA.DATALIBERACAO IS NULL'
-      '         GROUP BY BOOSCOMPENDENCIA.CODIGOUMA'
-      '                , BOOSCOMPENDENCIA.NUMOS'
-      '                , BOOSCOMPENDENCIA.DATAINCLUSAO'
-      '                , BOOSCOMPENDENCIA.USUARIOINCLUSAO'
-      '                , BOOSCOMPENDENCIA.DESCRICAOPROBLEMA'
-      '                , BOOSCOMPENDENCIA.CODMOTIVO '
-      '                , PCEMPR.NOME'
-      '                , MEP.TIPOOS'
-      '                , BODEFINEONDAI.NUMONDA'
-      '                , BODEFINEONDAI.DATA'
-      '                , MEP.CODPROD'
-      '                , ( CASE'
-      
-        '                      WHEN MEP.TIPOOS IN ( 17, 23, 98 ) THEN MEP' +
-        '.CODENDERECO'
-      '                      ELSE ( CASE'
-      
-        '                               WHEN MEP.TIPOOS = 61 THEN MEP.COD' +
-        'ENDERECOORIG'
-      '                               ELSE ( CASE'
-      
-        '                                        WHEN MEP.DTINICIOOS IS N' +
-        'ULL THEN MEP.CODENDERECOORIG'
-      '                                        ELSE MEP.CODENDERECO'
-      '                                      END )'
-      '                             END )'
-      '                    END )          '
+        '                  ON MEP.NUMOS = BOOSCOMPENDENCIA.NUMOS         ' +
+        '                             '
+      '         WHERE BOOSCOMPENDENCIA.DATALIBERACAO IS NULL'
       '         )'
       'SELECT '#39'N'#39' AS SELECIONADO'
       #9'   , OCORRENCIAS.CODIGOUMA'
@@ -197,7 +172,9 @@ object DMDB: TDMDB
       '       , PCENDERECO.NIVEL'
       '       , PCENDERECO.APTO'
       '       , PCTIPOOS.DESCRICAO AS desctipoos'
-      '       , SUM((SELECT COUNT(*)'
+      
+        '       , SUM((SELECT COUNT(DISTINCT BOOSCOMPENDENCIA.DATAINCLUSA' +
+        'O)'
       '       '#9'  FROM BOOSCOMPENDENCIA'
       '       '#9'  WHERE BOOSCOMPENDENCIA.NUMOS = OCORRENCIAS.NUMOS'
       

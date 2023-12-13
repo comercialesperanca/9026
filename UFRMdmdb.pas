@@ -31,7 +31,6 @@ type
     cdsOcorrenciasDESCRICAOPROBLEMA: TStringField;
     cdsOcorrenciasNOME: TStringField;
     cdsOcorrenciasTIPOOS: TIntegerField;
-    cdsOcorrenciasNUMONDA: TIntegerField;
     cdsOcorrenciasDATAONDA: TDateTimeField;
     cdsOcorrenciasCODIGOENDERECO: TFloatField;
     cdsOcorrenciasDEPOSITO: TIntegerField;
@@ -48,6 +47,7 @@ type
     cdsOcorrenciasCALC_SELECIONADO: TIntegerField;
     cdsOcorrenciasCALC_REINCIDENTE: TStringField;
     cdsOcorrenciasAGG_SELECIONADO: TAggregateField;
+    cdsOcorrenciasNUMONDA: TFloatField;
     procedure cdsOcorrenciasCalcFields(DataSet: TDataSet);
   private
     { Private declarations }
